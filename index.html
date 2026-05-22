@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanny242 | GitHub 儲存庫探索</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS 變數定義，極致暗黑與霓虹配色 */
+        :root {
+            --bg-primary: #060913;
+            --bg-secondary: #0b1120;
+            --card-bg: rgba(15, 23, 42, 0.55);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-border-hover: rgba(139, 92, 246, 0.4);
+            
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            --accent-gradient-hover: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --glow-color: rgba(139, 92, 246, 0.15);
+            
+            --font-main: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 全域樣式重設 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* 背景極光流光效果 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            filter: blur(100px);
+            pointer-events: none;
+        }
+
+        /* 內容容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header 區域 */
+        header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        /* Hero 區塊 - 毛玻璃看板 */
+        .hero-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            transition: var(--transition-smooth);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+
+        .hero-card:hover {
+            border-color: rgba(139, 92, 246, 0.25);
+            box-shadow: 0 30px 60px rgba(139, 92, 246, 0.08);
+        }
+
+        .profile-container {
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            background: linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box, var(--accent-gradient) border-box;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .hero-card:hover .profile-avatar {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        .profile-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 2px solid var(--bg-secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-info h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .profile-username {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .profile-bio {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            font-weight: 300;
+        }
+
+        /* 統計資訊網格 */
+        .stats-grid {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            flex: 1;
+            min-width: 140px;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* GitHub Readme Stats 區塊 */
+        .github-stats-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .stats-badge-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-smooth);
+        }
+
+        .stats-badge-img:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-purple);
+        }
+
+        /* 儲存庫標題 */
+        .section-header {
+            margin: 4rem 0 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        /* 儲存庫卡片網格 */
+        .repos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.75rem;
+        }
+
+        /* 單一卡片樣式 */
+        .repo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: var(--transition-smooth);
+            min-height: 280px;
+        }
+
+        /* 卡片發光裝飾 */
+        .repo-card::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: var(--accent-gradient);
+            top: -60px;
+            right: -60px;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.15;
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-border-hover);
+            box-shadow: 0 20px 40px var(--glow-color);
+        }
+
+        .repo-card:hover::after {
+            opacity: 0.3;
+            transform: scale(1.2);
+        }
+
+        .repo-top {
+            margin-bottom: 1.5rem;
+        }
+
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            gap: 1rem;
+        }
+
+        .repo-icon-wrapper {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: var(--transition-smooth);
+        }
+
+        .repo-card:hover .repo-icon-wrapper {
+            background: var(--accent-gradient);
+            color: #fff;
+            transform: rotate(-5deg) scale(1.05);
+        }
+
+        .repo-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            word-break: break-all;
+            flex: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .repo-card:hover .repo-name {
+            color: var(--accent-cyan);
+        }
+
+        .repo-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 92px;
+            font-weight: 300;
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .repo-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: var(--transition-smooth);
+        }
+
+        .repo-card:hover .repo-stat {
+            color: var(--text-secondary);
+        }
+
+        .repo-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.25rem;
+        }
+
+        /* 語言標記 */
+        .repo-lang {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* 預設語言顏色 */
+        .lang-html { background-color: #e34c26; }
+        .lang-php { background-color: #4f5d95; }
+        .lang-jupyter { background-color: #da5b0b; }
+        .lang-js { background-color: #f1e05a; }
+        .lang-default { background-color: var(--accent-purple); }
+
+        /* 前往 GitHub 按鈕 */
+        .repo-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent-gradient);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+            transition: var(--transition-smooth);
+        }
+
+        .repo-link:hover {
+            background: var(--accent-gradient-hover);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* 頁尾 */
+        footer {
+            margin-top: 6rem;
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        footer a:hover {
+            color: var(--accent-purple);
+            text-decoration: underline;
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .hero-card {
+                padding: 2rem 1.5rem;
+            }
+            .profile-info h1 {
+                font-size: 2.25rem;
+            }
+            .profile-avatar {
+                width: 110px;
+                height: 110px;
+            }
+            .stats-grid {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .stat-item {
+                width: 100%;
+            }
+            .github-stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* SVG 圖標樣式 */
+        .icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG 定義，集中管理以維持程式碼整潔 -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <!-- GitHub Logo -->
+        <g id="icon-github">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+        </g>
+        <!-- Star Icon -->
+        <g id="icon-star">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </g>
+        <!-- Fork Icon -->
+        <g id="icon-fork">
+            <path d="M6 3a3 3 0 00-3 3c0 1.22.73 2.27 1.78 2.74a3 3 0 001.22 5.06V15a3 3 0 003 3h1.22a3 3 0 100-2H12a1 1 0 01-1-1v-1.2A3 3 0 0011 8c0-1.66-1.34-3-3-3H7.8A3 3 0 006 3zm0 2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm6 11c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-4-9c.55 0 1 .45 1 1v1.2A3 3 0 008 11h1.2a1 1 0 011 1v1.2a3 3 0 00-.78 2.74V17a3 3 0 00-3-3H6.78a3 3 0 00-1.22-5.06V8A3 3 0 006 5z"/>
+        </g>
+        <!-- Folder/Repository Icon -->
+        <g id="icon-repo">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 4v10h16V8H4zm0-2h16V6H4v2z"/>
+        </g>
+        <!-- External Link Icon -->
+        <g id="icon-external">
+            <path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+        </g>
+        <!-- User Icon -->
+        <g id="icon-user">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </g>
+    </svg>
+
+    <div class="container">
+        
+        <!-- Header -->
+        <header>
+            <!-- Vanny242 個人看板卡片 -->
+            <div class="hero-card">
+                <div class="profile-container">
+                    <img id="avatar" class="profile-avatar" src="https://avatars.githubusercontent.com/u/167153032?v=4" alt="Vanny242 Profile Picture">
+                    <span class="profile-badge">Developer</span>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 id="name">Vanny242</h1>
+                    <span class="profile-username">@Vanny242</span>
+                    <p id="bio" class="profile-bio">熱衷於探索人工智慧編碼與先進 Web 技術的開發者。用程式碼驅動創意，建構流暢無阻的數位體驗。</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div id="repo-count" class="stat-value">7</div>
+                            <div class="stat-label">儲存庫數量</div>
+                        </div>
+                        <div class="stat-item">
+                            <div id="followers" class="stat-value">--</div>
+                            <div class="stat-label">關注者</div>
+                        </div>
+                        <div class="stat-item">
+                            <div id="following" class="stat-value">--</div>
+                            <div class="stat-label">追蹤中</div>
+                        </div>
+                    </div>
+
+                    <!-- 炫酷的 GitHub 統計看板，提升 Wow Factor -->
+                    <div class="github-stats-container">
+                        <img class="stats-badge-img" src="https://github-readme-stats.vercel.app/api?username=Vanny242&show_icons=true&theme=dark&bg_color=0f172a&border_color=334155&title_color=8b5cf6&icon_color=06b6d4&text_color=94a3b8" alt="GitHub Stats">
+                        <img class="stats-badge-img" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Vanny242&layout=compact&theme=dark&bg_color=0f172a&border_color=334155&title_color=8b5cf6&icon_color=06b6d4&text_color=94a3b8" alt="Top Languages">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 儲存庫展示 -->
+        <main>
+            <div class="section-header">
+                <h2>專案儲存庫庫</h2>
+            </div>
+            
+            <!-- 儲存庫網格 (靜態寫入確保可用性，後續透過 JS 動態抓取更新數據) -->
+            <div class="repos-grid" id="repos-container">
+                
+                <!-- Card 1: AgentCoding -->
+                <div class="repo-card" data-repo-name="AgentCoding">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">AgentCoding</h3>
+                        </div>
+                        <p class="repo-description">本專案。一個由先進 AI Agent（Antigravity）以全自動化工作流、高階網頁設計規格建構的 GitHub Portfolio 介紹網站，並完美部署於 GitHub Pages。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-html"></span>
+                                HTML
+                            </span>
+                            <a href="https://github.com/Vanny242/AgentCoding" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Agentic-Coding -->
+                <div class="repo-card" data-repo-name="Agentic-Coding">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">Agentic-Coding</h3>
+                        </div>
+                        <p class="repo-description">深入探索 Agentic 代理編碼的實驗性儲存庫。展示利用自主 Agent 進行程式碼生成、重構與自動化工作流控制的實踐軌跡。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-html"></span>
+                                HTML
+                            </span>
+                            <a href="https://github.com/Vanny242/Agentic-Coding" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: final.html -->
+                <div class="repo-card" data-repo-name="final.html">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">final.html</h3>
+                        </div>
+                        <p class="repo-description">精緻的前端 HTML 網頁實作。展示高品質的響應式網頁佈局、細緻的視覺設計，以及在單一網頁中實現流暢動效與良好互動性。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-html"></span>
+                                HTML
+                            </span>
+                            <a href="https://github.com/Vanny242/final.html" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: HackMD -->
+                <div class="repo-card" data-repo-name="HackMD">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">HackMD</h3>
+                        </div>
+                        <p class="repo-description">HackMD 技術文件與協作紀錄儲存庫。用於高效率地整理學習筆記、軟體架構設計方案與開發歷程，是個人知識管理的核心節點。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-default"></span>
+                                Documentation
+                            </span>
+                            <a href="https://github.com/Vanny242/HackMD" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: Hello_world -->
+                <div class="repo-card" data-repo-name="Hello_world">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">Hello_world</h3>
+                        </div>
+                        <p class="repo-description">我的第一個儲存庫。踏入程式開發宏大世界的起點，包含基礎的 HTML 網頁測試、版面實驗與程式學習的最初軌跡。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-html"></span>
+                                HTML
+                            </span>
+                            <a href="https://github.com/Vanny242/Hello_world" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: MachineLearning -->
+                <div class="repo-card" data-repo-name="MachineLearning">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">MachineLearning</h3>
+                        </div>
+                        <p class="repo-description">機器學習與數據分析實驗室。使用 Jupyter Notebook 撰寫，內容涵蓋資料前處理、機器學習模型訓練、成效評估與豐富的資料視覺化探索。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-jupyter"></span>
+                                Jupyter Notebook
+                            </span>
+                            <a href="https://github.com/Vanny242/MachineLearning" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7: PHP -->
+                <div class="repo-card" data-repo-name="PHP">
+                    <div class="repo-top">
+                        <div class="repo-header">
+                            <div class="repo-icon-wrapper">
+                                <svg class="icon"><use href="#icon-repo"></use></svg>
+                            </div>
+                            <h3 class="repo-name">PHP</h3>
+                        </div>
+                        <p class="repo-description">PHP 後端服務應用開發庫。包含伺服器端邏輯實作、API 設計、動態網頁資料庫介接，展現了後端系統工程的實作基礎。</p>
+                    </div>
+                    <div>
+                        <div class="repo-stats">
+                            <span class="repo-stat" title="Stars">
+                                <svg class="icon"><use href="#icon-star"></use></svg>
+                                <span class="stars-val">0</span>
+                            </span>
+                            <span class="repo-stat" title="Forks">
+                                <svg class="icon"><use href="#icon-fork"></use></svg>
+                                <span class="forks-val">0</span>
+                            </span>
+                        </div>
+                        <div class="repo-bottom">
+                            <span class="repo-lang">
+                                <span class="lang-dot lang-php"></span>
+                                PHP
+                            </span>
+                            <a href="https://github.com/Vanny242/PHP" target="_blank" class="repo-link">
+                                Explore
+                                <svg class="icon" style="width: 14px; height: 14px;"><use href="#icon-external"></use></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Designed and Built by 🚀 <strong>Antigravity AI</strong> for Vanny242</p>
+            <p>&copy; 2026. All rights reserved. 點擊進入 <a href="https://github.com/Vanny242" target="_blank">GitHub 個人頁面</a></p>
+        </footer>
+
+    </div>
+
+    <!-- 動態載入腳本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = 'Vanny242';
+            
+            // 1. 動態抓取 GitHub 個人資訊
+            fetch(`https://api.github.com/users/${username}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('API limit reached');
+                    return response.json();
+                })
+                .then(data => {
+                    // 更新大頭貼
+                    if (data.avatar_url) {
+                        document.getElementById('avatar').src = data.avatar_url;
+                    }
+                    // 更新顯示名稱
+                    if (data.name) {
+                        document.getElementById('name').textContent = data.name;
+                    }
+                    // 更新 Bio
+                    if (data.bio) {
+                        document.getElementById('bio').textContent = data.bio;
+                    }
+                    // 更新粉絲/關注數
+                    document.getElementById('followers').textContent = data.followers;
+                    document.getElementById('following').textContent = data.following;
+                    
+                    // 動態更新 Repo 數量
+                    if (data.public_repos) {
+                        document.getElementById('repo-count').textContent = data.public_repos;
+                    }
+                })
+                .catch(err => {
+                    console.warn('使用靜態資料作為降級備用案：', err);
+                    // 降級備用數值 (寫死展示)
+                    document.getElementById('followers').textContent = '2';
+                    document.getElementById('following').textContent = '5';
+                });
+
+            // 2. 動態抓取 GitHub Repos 以同步 Stars 與 Forks 的數值
+            fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
+                .then(response => {
+                    if (!response.ok) throw new Error('API limit reached');
+                    return response.json();
+                })
+                .then(repos => {
+                    // 對應更新畫面上卡片的 Stars 與 Forks 數值
+                    repos.forEach(repo => {
+                        const card = document.querySelector(`.repo-card[data-repo-name="${repo.name}"]`);
+                        if (card) {
+                            const starEl = card.querySelector('.stars-val');
+                            const forkEl = card.querySelector('.forks-val');
+                            if (starEl) starEl.textContent = repo.stargazers_count;
+                            if (forkEl) forkEl.textContent = repo.forks_count;
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.warn('讀取 API 數據失敗，將顯示預設值 0：', err);
+                });
+                
+            // 3. 微動畫：卡片淡入載入效果
+            const cards = document.querySelectorAll('.repo-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>
